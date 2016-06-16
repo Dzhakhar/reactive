@@ -14,24 +14,24 @@ var Reactive = function(){
 	}
 
 	this.changeValue = function(key, value){
-		var oldValue = this.state[key]["value"];
+		var oldState = this.state;
 
 		this.state[key]["value"] = value;
 
-		var newValue = this.state[key]["value"];
+		var newState = this.state;
 		var listeners = this.state[key]["listeners"];
 
 		for(var i = 0; i < listeners.length; i++){
-			listeners[i](newValue, oldValue);
+			listeners[i](newState, oldState);
 		}
 	}
 }
 
 var test = new Reactive();
-var foo = function(val){console.log("Hello " + val)};
-
+var foo = function(state){console.log("Hello, my name is " + state.name.value + "! I'm  " + state.age.value + " years old")};
 test.newValue("name", "Vasya");
+test.newValue("age", "35");
 test.addListener("name", foo);
-test.changeValue("name", "Petya");
-test.changeValue("name", "Alesha");
-test.changeValue("name", "Fedya");
+test.addListener("age", foo);
+
+test.changeValue("age", "38");
