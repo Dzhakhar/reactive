@@ -14,10 +14,15 @@ var Reactive = function(){
 	}
 
 	this.changeValue = function(key, value){
+		var oldValue = this.state[key]["value"];
+
 		this.state[key]["value"] = value;
+
+		var newValue = this.state[key]["value"];
 		var listeners = this.state[key]["listeners"];
+
 		for(var i = 0; i < listeners.length; i++){
-			listeners[i](value);
+			listeners[i](newValue, oldValue);
 		}
 	}
 }
